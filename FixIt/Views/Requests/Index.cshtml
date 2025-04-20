@@ -1,0 +1,31 @@
+@model IEnumerable<FixIt.Models.RepairRequest>
+
+<h2>Всички заявки</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Име</th>
+            <th>Телефон</th>
+            <th>Категория</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Дата</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ClientName</td>
+                <td>@item.Phone</td>
+                <td>@item.Category</td>
+                <td>@item.Description</td>
+                <td>@item.Status</td>
+                <td>@item.CreatedAt.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" href="/Requests/Create">Нова заявка</a>

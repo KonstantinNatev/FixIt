@@ -1,0 +1,39 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code settings
+.idea/
+.vscode/
+
+# Local database
+*.db
+*.sqlite
+
+# Logs
+*.log
+
+# ASP.NET Secrets
+**/appsettings.Development.json
+
+# Entity Framework generated files (optional, ако искаш да игнорираш миграции)
+# Migrations/
+
+# Publish output
+publish/
+out/
+
+# Temp files
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+
+# JetBrains Rider
+.ReSharper*/
