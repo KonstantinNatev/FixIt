@@ -7,16 +7,21 @@ namespace FixIt.Controllers
     public class RequestsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public RequestsController(ApplicationDbContext context)
+        public RequestsController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: /Requests
         public IActionResult Index()
         {
-            var requests = _context.RepairRequests.OrderByDescending(r => r.CreatedAt).ToList();
+            var requests = _context.RepairRequests
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList();
+
             return View(requests);
         }
 
@@ -29,16 +34,36 @@ namespace FixIt.Controllers
         // POST: /Requests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(RepairRequest request)
+        public IActionResult Create(RepairRequest request, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
             {
+                if (ImageFile != null && ImageFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolder))
+                        Directory.CreateDirectory(uploadsFolder);
+
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        ImageFile.CopyTo(stream);
+                    }
+
+                    request.ImagePath = "/uploads/" + fileName;
+                }
+
                 request.CreatedAt = DateTime.Now;
                 request.Status = RequestStatus.Waiting;
+
                 _context.RepairRequests.Add(request);
                 _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(request);
         }
     }
