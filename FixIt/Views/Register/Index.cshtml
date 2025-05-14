@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<div class="container mt-5" style="max-width: 400px;">
+    <h2 class="mb-4">Регистрация на потребител</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Потребителско име</label>
+            <input type="text" name="username" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Парола</label>
+            <input type="password" name="password" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">Регистрирай</button>
+    </form>
+
+    <div class="mt-3">
+        <a href="/Login" class="btn btn-link">Вече имате акаунт? Влезте тук</a>
+    </div>
+</div>

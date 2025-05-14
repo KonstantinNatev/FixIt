@@ -1,18 +1,30 @@
-<h2>Вход за администратор</h2>
-
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">@ViewBag.Error</div>
+@{
+    ViewData["Title"] = "Админ вход";
 }
 
-<form method="post">
-    <div class="form-group">
-        <label>Потребителско име</label>
-        <input name="username" class="form-control" />
+<div class="d-flex align-items-center justify-content-center">
+    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+        <h3 class="text-center mb-4 text-primary">Вход за администратор</h3>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger text-center">@ViewBag.Error</div>
+        }
+
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Потребителско име</label>
+                <input type="text" name="username" class="form-control" placeholder="admin" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Парола</label>
+                <input type="password" name="password" class="form-control" placeholder="********" required />
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Вход</button>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label>Парола</label>
-        <input name="password" type="password" class="form-control" />
-    </div>
-    <button class="btn btn-primary mt-2">Вход</button>
-</form>
+</div>

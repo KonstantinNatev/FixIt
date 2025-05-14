@@ -1,11 +1,17 @@
+using FixIt.Data;
+using FixIt.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FixIt.Controllers
 {
     public class LoginController : Controller
     {
-        private const string adminUser = "admin";
-        private const string adminPass = "admin123";
+        private readonly ApplicationDbContext _context;
+
+        public LoginController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
         public IActionResult Index()
@@ -16,20 +22,34 @@ namespace FixIt.Controllers
         [HttpPost]
         public IActionResult Index(string username, string password)
         {
-            if (username == adminUser && password == adminPass)
+            var user = _context.Users
+                .FirstOrDefault(u => u.Username == username && u.Password == password);
+
+            if (user != null)
             {
-                HttpContext.Session.SetString("IsAdmin", "true");
-                return RedirectToAction("Index", "Admin");
+                // 🧠 Запазваме потребителската информация в сесия
+                HttpContext.Session.SetString("Username", user.Username);
+                HttpContext.Session.SetString("Role", user.Role);
+
+                // 👑 Пренасочване според роля
+                if (user.Role == "Admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Requests");
+                }
             }
 
-            ViewBag.Error = "Невалидни данни за вход.";
+            ViewBag.Error = "Невалидно потребителско име или парола.";
             return View();
         }
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("IsAdmin");
-            return RedirectToAction("Index");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

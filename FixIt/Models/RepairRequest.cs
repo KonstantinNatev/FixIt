@@ -17,5 +17,6 @@ namespace FixIt.Models
         public string? ImagePath { get; set; }
         public RequestStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string Username { get; set; } = string.Empty;
     }
 }

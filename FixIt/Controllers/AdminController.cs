@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using FixIt.Data;
 using FixIt.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FixIt.Controllers
 {
@@ -15,14 +16,12 @@ namespace FixIt.Controllers
             _environment = environment;
         }
 
-        // GET: /Admin
         public IActionResult Index()
         {
-            // Ако искаш защита на достъпа – махни коментара по-долу:
-            // if (HttpContext.Session.GetString("IsAdmin") != "true")
-            // {
-            //     return RedirectToAction("Index", "Login");
-            // }
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
             var requests = _context.RepairRequests
                 .OrderByDescending(r => r.CreatedAt)
@@ -31,10 +30,15 @@ namespace FixIt.Controllers
             return View(requests);
         }
 
-        // POST: /Admin/ChangeStatus/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ChangeStatus(int id, RequestStatus newStatus)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             var request = _context.RepairRequests.Find(id);
             if (request == null) return NotFound();
 
@@ -44,17 +48,18 @@ namespace FixIt.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: /Admin/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            var request = _context.RepairRequests.Find(id);
-            if (request == null)
+            if (HttpContext.Session.GetString("Role") != "Admin")
             {
-                return NotFound();
+                return RedirectToAction("Index", "Login");
             }
 
-            // Ако има снимка – изтрий и нея от диска
+            var request = _context.RepairRequests.Find(id);
+            if (request == null) return NotFound();
+
             if (!string.IsNullOrEmpty(request.ImagePath))
             {
                 var fullPath = Path.Combine(_environment.WebRootPath, request.ImagePath.TrimStart('/'));

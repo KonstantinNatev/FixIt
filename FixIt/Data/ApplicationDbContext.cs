@@ -9,5 +9,8 @@ namespace FixIt.Data
             : base(options) { }
 
         public DbSet<RepairRequest> RepairRequests { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
+        public DbSet<User> Users { get; set; }
+
     }
 }

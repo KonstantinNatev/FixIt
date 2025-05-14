@@ -1,8 +1,28 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-4">
+                🛠️ Добре дошли във FixIt
+            </h1>
+
+            <p class="lead text-secondary mb-4">
+                FixIt е платформа за подаване и управление на заявки за домашни ремонти.<br />
+                Попълни форма, качи снимка и ние ще се погрижим за останалото!
+            </p>
+
+            <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+                <a href="/Requests/Create" class="btn btn-success btn-lg px-4">
+                    <i class="bi bi-plus-circle me-1"></i> Подай заявка
+                </a>
+
+                <a href="/Login" class="btn btn-outline-primary btn-lg px-4">
+                    <i class="bi bi-person-lock me-1"></i> Админ вход
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
