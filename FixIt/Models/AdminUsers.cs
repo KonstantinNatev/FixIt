@@ -10,6 +10,6 @@ namespace FixIt.Models
         public string Username { get; set; } = string.Empty;
 
         [Required]
-        public string Password { get; set; } = string.Empty; // За по-сигурно — може да е хеш
+        public string Password { get; set; } = string.Empty;
     }
 }

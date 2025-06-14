@@ -13,6 +13,6 @@ namespace FixIt.Models
         public string Password { get; set; } = string.Empty;
 
         [Required]
-        public string Role { get; set; } = "User"; // или "Admin"
+        public string Role { get; set; } = "User";
     }
 }

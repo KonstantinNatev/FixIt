@@ -27,11 +27,9 @@ namespace FixIt.Controllers
 
             if (user != null)
             {
-                // 🧠 Запазваме потребителската информация в сесия
                 HttpContext.Session.SetString("Username", user.Username);
                 HttpContext.Session.SetString("Role", user.Role);
 
-                // 👑 Пренасочване според роля
                 if (user.Role == "Admin")
                 {
                     return RedirectToAction("Index", "Admin");

@@ -1,4 +1,3 @@
-// RequestsController.cs
 using Microsoft.AspNetCore.Mvc;
 using FixIt.Data;
 using FixIt.Models;
